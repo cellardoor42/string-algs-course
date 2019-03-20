@@ -1,0 +1,80 @@
+.App
+  text-align: center
+  height: 80vh
+  padding: 10vh
+  background-color: #061F2F
+  color: #d3d4d4
+
+  & input[type=text]
+    padding: 5px 10px
+    margin: 20px 100px 20px 50px
+    width: 30%
+    font-size: 1.2em
+    border-radius: 2px
+    border: none
+    background-color: #061F2F
+    color: white
+    border-bottom: 2px solid #a7e2ff
+    transition: .25s
+
+
+  & input[type=text]:focus
+    outline: none
+    border-bottom: 2px solid #96c0d3
+
+  & input[type=file]
+    width: 0.1px
+    height: 0.1px
+    opacity: 0
+    overflow: hidden
+    position: absolute
+    z-index: -1
+
+  & input[type=file] + label
+    font-size: 1.2em
+    //font-weight: 700
+    color: #a7e2ff
+    padding: 10px 25px
+    cursor: pointer
+    border-radius: 2px
+    background-color: #101c29
+    display: inline-block
+    border: 1px solid #37404a
+    transition: .25s
+
+  & input[type=file]:focus + label, input[type=file] + label:hover
+    color: #96c0d3
+
+  .file-input_icon
+    font-size: 25px
+    margin-right: 10px
+
+  & button
+    padding: 10px 25px
+    border-radius: 3px
+    font-size: 1.2em
+    background-color: #101c29
+    color: firebrick
+    border: 2px solid firebrick
+    cursor: pointer
+    outline: none
+    transition: .25s
+
+  & button:hover
+    background-color: firebrick
+    color: white
+
+  & button:active
+    background-color: darkred
+
+  & textarea
+    width: calc(100% - 100px)
+    height: 55vh
+    margin: 80px 20px 0
+    padding: 20px
+    border-radius: 2px
+    outline: none
+    border: none
+    color: #a7e2ff
+    background-color: #0a121b
+    font-size: 1.1em
