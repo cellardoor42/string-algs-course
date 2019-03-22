@@ -4,7 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import { naive, kmp, bm, rk } from './algs';
+import { naive, kmp, bm, shiftAnd } from './algs';
 
 library.add(faFileUpload, faSearch);
 
@@ -74,6 +74,9 @@ class App extends Component {
 
     const bmRes = bm(this.text, this.state.pattern);
     this.logOutput(`Алгоритм Бойера-Мура: найдено вхождений ${bmRes.entries.length}, время выполнения ${bmRes.time} мс`);
+
+    const saRes = shiftAnd(this.text, this.state.pattern);
+    this.logOutput(`Алгоритм Shift-And: найдено вхождений ${saRes.entries.length}, время выполнения ${saRes.time} мс`);
 
     // const rkRes = rk(this.text, this.state.pattern);
     // this.logOutput(`Алгоритм Рабина-Карпа: найдено вхождений ${rkRes.entries.length}, время выполнения ${rkRes.time} мс`);

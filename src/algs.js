@@ -15,10 +15,6 @@ export const naive = (text, pattern) => {
 
   console.log('НАИВНЫЙ АЛГОРИТМ');
   console.log(`Найдено вхождений: ${entries.length}`);
-  // console.log('Индексы вхождений:');
-  // entries.forEach(entry => {
-  //   console.log(entry);
-  // });
   console.log(`Время выполнения: ${end - start} мс`);
   console.log('----------');
 
@@ -76,10 +72,6 @@ export const kmp = (text, pattern) => {
   console.log('АЛГОРИТМ КНУТА-МОРРИСА-ПРАТТА');
   console.log(`Префикс-функция от искомой подстроки: [${f}]`);
   console.log(`Найдено вхождений: ${entries.length}`);
-  // console.log('Индексы вхождений:');
-  // entries.forEach(entry => {
-  //   console.log(entry);
-  // });
   console.log(`Время выполнения: ${end - start} мс`);
   console.log('----------');
 
@@ -143,10 +135,6 @@ export const bm = (text, pattern) => {
 
   console.log('АЛГОРИТМ БОЙЕРА-МУРА');
   console.log(`Найдено вхождений: ${entries.length}`);
-  // console.log('Индексы вхождений:');
-  // entries.forEach(entry => {
-  //   console.log(entry);
-  // });
   console.log(`Время выполнения: ${end - start} мс`);
   console.log('----------');
 
@@ -155,56 +143,47 @@ export const bm = (text, pattern) => {
     time: end - start
   };
 };
-
-const P = 3; // коэффициент хэширования для алгоритма Рабина-Карпа
 
 /*
 * Функция вычисления полиномиального хэша строки
 * */
 const hash = (s) => {
-  let hashSum = 0;
-  for (let i = 0;  i < s.length; i++) {
-    hashSum += Math.pow(P, i) * s.charCodeAt(i);
-  }
-
-  return hashSum;
+  let h = 0, l = s.length, i = 0;
+  if ( l > 0 )
+    while (i < l)
+      h = (h << 5) - h + s.charCodeAt(i++) | 0;
+  return h;
 };
 
 /*
-* Алгоритм Рабина-Карпа
+* Shift-And алгоритм
 * */
-export const rk = (text, pattern) => {
+export const shiftAnd = (text, pattern) => {
   const start = Date.now();
   const entries = [];
-  let hashT = hash(text.substr(0, pattern.length - 1));
-  const hashP = hash(pattern);
-  const r = Math.random() * 10000000;
 
-  for (let i = 0; i < text.length - pattern.length; i++) {
-    console.log(hashT, hashP);
-    if (hashT === hashP) { entries.push(i); }
+  let hashText = hash(text.substring(0, pattern.length));
+  const hashPattern = hash(pattern);
 
-    if (i + pattern.length === text.length) {
-      hashT = (P * hashT - Math.pow(P, pattern.length) * hash(text[i]) + hash('')) % r;
-    } else {
-      hashT = (P * hashT - Math.pow(P, pattern.length) * hash(text[i]) + hash(text[i + pattern.length])) % r;
+  for (let i = 0; i < text.length - pattern.length;) {
+    if (hashText === hashPattern) {
+      entries.push(i);
     }
+
+    i++;
+    hashText = hash(text.substring(i, i + pattern.length));
   }
 
   const end = Date.now();
 
-  console.log('АЛГОРИТМ РАБИНА-КАРПА');
-  console.log(`Полиномиальный хэш искомой подстроки: [${hashP}]`);
+  console.log('АЛГОРИТМ SHIFT-AND');
+  console.log(`Хэш-функция от искомой подстроки: ${hashPattern}`);
   console.log(`Найдено вхождений: ${entries.length}`);
-  // console.log('Индексы вхождений:');
-  // entries.forEach(entry => {
-  //   console.log(entry);
-  // });
   console.log(`Время выполнения: ${end - start} мс`);
   console.log('----------');
 
   return {
     entries,
     time: end - start
-  };
+  }
 };
