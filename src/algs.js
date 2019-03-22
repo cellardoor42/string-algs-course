@@ -89,6 +89,73 @@ export const kmp = (text, pattern) => {
   };
 };
 
+const getShift = (shiftStr, shift, symbol) => {
+  if (shiftStr.includes(symbol)) {
+    return shift[shiftStr.indexOf(symbol)];
+  }
+
+  return shiftStr.length + 1;
+};
+
+/*
+* Алгоритм Бойера-Мура
+* */
+export const bm = (text, pattern) => {
+  const start = Date.now();
+  const shiftStr = pattern.substr(0, pattern.length - 1);
+  const entries = [];
+
+  const shift = [];
+
+  for (let i = 0; i < shiftStr.length; i++) {
+    shift.push(shiftStr.length - shiftStr.lastIndexOf(shiftStr.charAt(i)));
+  }
+
+  shift.push(pattern.length);
+
+  for (let i = pattern.length - 1, j = pattern.length - 1; i < text.length;) {
+    let returnTo = i, match = 0, t, p;
+    do {
+      t = text.charAt(i);
+      p = pattern.charAt(j);
+      if (t === p) {
+        j--;
+        i--;
+        match++;
+      }
+    } while (t === p && i >= 0 && j >= 0);
+
+    if (j === -1) {
+      entries.push(i + 1);
+      i = returnTo + 1;
+    } else {
+      if (getShift(shiftStr, shift, t) <= match) {
+        match = 0;
+      }
+
+      i = returnTo + getShift(shiftStr, shift, t) - match;
+    }
+
+    j = pattern.length - 1;
+  }
+
+  const end = Date.now();
+
+  console.log('АЛГОРИТМ БОЙЕРА-МУРА');
+  console.log(`Найдено вхождений: ${entries.length}`);
+  // console.log('Индексы вхождений:');
+  // entries.forEach(entry => {
+  //   console.log(entry);
+  // });
+  console.log(`Время выполнения: ${end - start} мс`);
+  console.log('----------');
+
+  return {
+    entries,
+    time: end - start
+  };
+};
+
 const P = 3; // коэффициент хэширования для алгоритма Рабина-Карпа
 
 /*

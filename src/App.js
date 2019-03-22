@@ -4,7 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import { naive, kmp, rk } from './algs';
+import { naive, kmp, bm, rk } from './algs';
 
 library.add(faFileUpload, faSearch);
 
@@ -72,8 +72,11 @@ class App extends Component {
     const kmpRes = kmp(this.text, this.state.pattern);
     this.logOutput(`Алгоритм Кнута-Морриса-Пратта: найдено вхождений ${kmpRes.entries.length}, время выполнения ${kmpRes.time} мс`);
 
-    const rkRes = rk(this.text, this.state.pattern);
-    this.logOutput(`Алгоритм Рабина-Карпа: найдено вхождений ${rkRes.entries.length}, время выполнения ${rkRes.time} мс`);
+    const bmRes = bm(this.text, this.state.pattern);
+    this.logOutput(`Алгоритм Бойера-Мура: найдено вхождений ${bmRes.entries.length}, время выполнения ${bmRes.time} мс`);
+
+    // const rkRes = rk(this.text, this.state.pattern);
+    // this.logOutput(`Алгоритм Рабина-Карпа: найдено вхождений ${rkRes.entries.length}, время выполнения ${rkRes.time} мс`);
   }
 
   logOutput(str) {
